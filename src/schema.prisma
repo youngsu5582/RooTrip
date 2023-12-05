@@ -1,0 +1,251 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions", "views"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+generator markdown {
+  provider = "prisma-markdown"
+  title    = "RooTrip"
+  output   = "../docs/ERD.md"
+}
+
+//----------------------------------------------------------------
+// ARTICLES
+//----------------------------------------------------------------
+// Title : 루트트립 ERD
+// Version : 0.0.1
+// Author : Youngsu5582 ( https://github.com/youngsu5582 )
+//----------------------------------------------------------------
+/// 사용자
+/// RooTrip ( 일명 루트트립 ) 을 사용하는 고객이다.
+/// Social Login 과 Local Login 을 통해서 로그인을 할 수 있다.
+/// 로그인 후 , 댓글 과 게시글 작성을 할 수 있다.
+/// Profiel Model 과 1:1 관계
+/// Post Model , Comment Model 과 1:N 관계를 가지고 있다.
+/// @namespace Article
+model User {
+  id String @id
+
+  /// 사용자의 Email 주소
+  /// @format email
+  email String @unique
+
+  /// 사용자의 비밀번호
+  /// @pattern ^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d`-~!@#$%^&*()/]{8,16}$
+  password String?
+
+  /// 사용자의 재발급 토큰
+  refresh_token String?
+
+  //----
+  // RELEATIONS
+  //----  
+
+  /// 게시글 정보에 속함
+  posts Post[]
+
+  /// 댓글 정보에 속함
+  Comment Comment[]
+
+  /// 사용자의 프로필 정보에 속함
+  profile Profile?
+}
+
+/// 프로필
+/// 사용자를 생성할 때 , 같이 만들어지는 Profile 이다.
+/// 차후
+/// 자기소개 , 프로필 이미지 변경 , 닉네임 변경이 가능하다.
+/// User Model 과 1:1 관계이다.
+/// @namespace Article
+model Profile {
+  /// @format uuid
+  id String @id @default(uuid())
+
+  /// 유저의 Key {@link User.id}
+  user_id String @unique
+
+  /// 프로필 이미지 경로
+  /// @format url
+  profile_image_url String @default("")
+
+  /// 사용자의 이름
+  /// @minLength 1
+  /// @maxLength 15
+  name String
+
+  /// 사용자의 자기소개
+  bio String @default("") @db.Text
+
+  /// 사용자의 닉네임
+  /// @minLength 1
+  /// @maxLength 20
+  nickname String @default("")
+
+  //----
+  // RELEATIONS
+  //----  
+
+  /// 유저 정보에 속함
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+/// 게시글
+/// 사용자가 작성하는 게시글이다.
+/// 내용과 사진을 업로드 한 후 , 작성한다.
+/// 사진은 최소한 하나가 있어야 한다.
+/// User Model 과 N:1 관계이다.
+/// Photo Model 과 1:N 관계이다.
+/// @namespace Article
+model Post {
+  /// @format uuid
+  id String @id @default(uuid())
+
+  ///
+  /// 유저의 Key {@link User.id}
+  user_id String
+
+  /// 게시글 내용
+  content String @default("") @db.Text
+
+  /// 게시글 조회수
+  post_views Int @default(0)
+
+  /// 게시글 좋아요 개수
+  like Int @default(0)
+
+  /// 경로의 순서들
+  /// 해당 Column은 추가 여부를 고려하고 있는 중
+  /// 불필요할수도 있다고 판단하기 때문 ( 2023.12.05 )
+  routes Int[] @db.SmallInt
+
+  //----
+  // RELEATIONS
+  //----  
+
+  /// 유저 정보에 속함
+  user User @relation(fields: [user_id], references: [id])
+
+  /// 사진 정보에 속함
+  /// @minItems 1
+  photo Photo[]
+
+  /// 댓글 정보에 속함
+  Comment Comment[]
+}
+
+/// 게시글의 댓글
+/// 사용자가 게시글 내에 작성한 댓글이다.
+/// 댓글에는 공백이 들어올 수 없다.
+/// Post , User Model 과 N:1 관계이다.
+/// @namespace Article
+model Comment {
+  /// @format uuid
+  id String @id @default(uuid())
+
+  /// 게시글의 Key {@link Post.id}
+  post_id String
+
+  /// 유저의 key {@link User.id}
+  user_id String
+
+  /// 댓글 내용
+  content String @db.Text
+
+  /// 댓글 좋아요 수
+  like Int @default(0)
+
+  //----
+  // RELEATIONS
+  //----  
+
+  /// 유저 정보에 속함
+  user User @relation(fields: [user_id], references: [id])
+
+  /// 게시글 정보에 속함
+  post Post @relation(fields: [post_id], references: [id])
+}
+
+/// 도로명 주소
+/// 사진의 메타정보를 반환하기 위해 미리 저장 해놓는 데이터
+/// 차후 , MongoDB 로 이동될 수도 있음! ( 2023.12.05 )
+/// Photo Model 과 1:N 관계이다.
+/// @namespace Article
+model Address {
+  id Int @id @default(autoincrement())
+
+  /// 대한민국의 9기의 도 & 시를 표시 ( 경상북도 , 대구 광역시 ...)
+  city String
+
+  /// 대한민국의 구 & 군을 표시 ( 달서구 , 강동구 ...)
+  first String
+
+  /// 동 & 면 & 가 를 표시 ( 둔촌동 , 서면 , 종로1가 ...)
+  second String
+
+  /// 해당 도로명 주소의 중앙 지점 좌표
+  /// GeoJSON 의 Point 사용 ( -75.289080414181669, 48.284706278302295 )
+  /// Prisma 에서 GeoJSON 은 아직 미지원 이므로 , Unsupported 사용
+  coordinate Unsupported("geometry(Point, 4326)")
+
+  //----
+  // RELEATIONS
+  //----  
+
+  /// 사진 정보에 속함
+  Photo Photo[]
+
+  //----
+  // INDEX
+  //----
+
+  ///GEOJSON 을 사용하기 위한 Spatial_Index
+  @@index([coordinate], name: "address_location_idx", type: Gist)
+}
+
+/// 사진
+/// 게시글에 저장된 사진
+/// 메타정보는 무조건 들어가야 한다.
+/// Post , User Model 과 N:1 관계이다.
+/// @namespace Article
+model Photo {
+  id String @id @default(uuid())
+
+  /// 게시글의 Key {@link Post.id}
+  post_id String
+
+  /// 주소의 Key {@link Address.id}
+  address_id Int
+
+  /// 사진 이미지의 경로
+  image_url String
+
+  /// 게시글에서 해당 사진의 순서
+  photo_order Int @db.SmallInt
+
+  /// 해당 사진의 메타정보가 가지고 있는 좌표
+  /// GeoJSON 의 Point 사용 ( -75.289080414181669, 48.284706278302295 )
+  /// Prisma 에서 GeoJSON 은 아직 미지원 이므로 , Unsupported 사용
+  coordinate Unsupported("geometry(Point, 4326)")
+
+  //----
+  // RELEATIONS
+  //----  
+
+  /// 주소 정보에 속함
+  address Address @relation(fields: [address_id], references: [id])
+
+  /// 게시글 정보에 속함
+  post Post @relation(fields: [post_id], references: [id])
+
+  //----
+  // INDEX
+  //----
+
+  ///GEOJSON 을 사용하기 위한 Spatial_Index  
+  @@index([coordinate], name: "photo_location_idx", type: Gist)
+}
