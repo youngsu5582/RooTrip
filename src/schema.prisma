@@ -190,7 +190,7 @@ model Address {
   /// 해당 도로명 주소의 중앙 지점 좌표
   /// GeoJSON 의 Point 사용 ( -75.289080414181669, 48.284706278302295 )
   /// Prisma 에서 GeoJSON 은 아직 미지원 이므로 , Unsupported 사용
-  coordinate Unsupported("geometry(Point, 4326)")
+  coordinate Unsupported("point")
 
   //----
   // RELEATIONS
@@ -230,7 +230,7 @@ model Photo {
   /// 해당 사진의 메타정보가 가지고 있는 좌표
   /// GeoJSON 의 Point 사용 ( -75.289080414181669, 48.284706278302295 )
   /// Prisma 에서 GeoJSON 은 아직 미지원 이므로 , Unsupported 사용
-  coordinate Unsupported("geometry(Point, 4326)")
+  coordinate Unsupported("point")
 
   //----
   // RELEATIONS

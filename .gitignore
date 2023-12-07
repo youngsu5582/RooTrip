@@ -4,6 +4,8 @@
 
 # Development File
 .env
+.env.*
+src/migrations/
 
 # Logs
 logs

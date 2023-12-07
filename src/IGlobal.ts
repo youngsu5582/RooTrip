@@ -1,4 +1,3 @@
-//import { PrismaClient } from "@prisma/client";
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
 import { Singleton } from './lib/stl/Singleton';
@@ -9,11 +8,9 @@ import typia from 'typia';
  *
  * @links https://github.com/samchon/backend/blob/master/src/MyGlobal.ts
  */
+type EnvironmentMode = 'local' | 'dev' | 'prod';
 export class IGlobal {
   public static testing = false;
-
-  //  public static readonly prisma: PrismaClient = new PrismaClient();
-
   public static get env(): IEnvironments {
     return environments.get();
   }
@@ -23,10 +20,10 @@ export class IGlobal {
    *
    *   - local: The server is on your local machine.
    *   - dev: The server is for the developer.
-   *   - real: The server is for the real service.
+   *   - prod: The server is for the real service.
    */
-  public static get mode(): 'local' | 'dev' | 'prod' {
-    return (modeWrapper.value ??= environments.get().MODE);
+  public static get mode(): EnvironmentMode {
+    return modeWrapper.value ?? environments.get().MODE;
   }
 
   /**
@@ -40,19 +37,18 @@ export class IGlobal {
   }
 }
 interface IEnvironments {
-  MODE: 'local' | 'dev' | 'prod';
+  MODE: EnvironmentMode;
   API_PORT: `${number}`;
 
   POSTGRES_HOST: string;
   POSTGRES_PORT: `${number}`;
   POSTGRES_DATABASE: string;
-  POSTGRES_SCHEMA: string;
   POSTGRES_USERNAME: string;
   POSTGRES_PASSWORD: string;
 }
 
 interface IMode {
-  value?: 'local' | 'dev' | 'prod';
+  value?: EnvironmentMode;
 }
 
 const modeWrapper: IMode = {};
