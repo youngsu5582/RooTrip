@@ -1,4 +1,4 @@
-import { SocialLoginType } from "src/types";
+import { SocialLoginType } from "src/user/types";
 
 export interface SocialLoginDto{
     provider : SocialLoginType;
