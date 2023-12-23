@@ -1,6 +1,6 @@
 import axios from "axios";
-import { IGlobal } from "src/IGlobal";
-import { LoginStragety } from "./LoginStragety";
+
+import { SocialLoginStragety } from "./LoginStragety";
 
 type KakaoParamType = {
     grant_type:string
@@ -9,10 +9,11 @@ type KakaoParamType = {
     redirect_uri : string;    
 }
 
-export class KakaoLoginStragety implements LoginStragety{
+export class KakaoLoginStragety implements SocialLoginStragety{
     private static readonly KAKAO_AUTH_URL = "https://kauth.kakao.com/oauth/token"
     private static readonly KAKAO_USER_URL = "https://kapi.kakao.com/v2/user/me"
-    private static readonly KAKAO_API_KEY = IGlobal.env.KAKAO_API_KEY;
+    private static readonly KAKAO_API_KEY = process.env.KAKAO_API_KEY;
+
     public async getAuthenticate(code:string):Promise<string>{
         const params = this.getParams(code);
         const data = await this.authenticate(params);
@@ -40,7 +41,7 @@ export class KakaoLoginStragety implements LoginStragety{
     private getParams(code:string) : KakaoParamType{
         return {
             grant_type: "authorization_code",
-            client_id: KakaoLoginStragety.KAKAO_API_KEY,
+            client_id: KakaoLoginStragety.KAKAO_API_KEY!,
             code,
             redirect_uri: KakaoLoginStragety.KAKAO_AUTH_URL
         }

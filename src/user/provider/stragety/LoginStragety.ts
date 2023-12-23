@@ -1,6 +1,6 @@
 
 
-export interface LoginStragety{
-    getAccessToken(code:string):Promise<string>;
+export interface SocialLoginStragety{
+    getAuthenticate(code:string):Promise<string>;
     getUserInfo(accessToken:string):Promise<any>;
 }

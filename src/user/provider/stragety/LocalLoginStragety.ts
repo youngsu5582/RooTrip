@@ -1,12 +1,12 @@
-import { LoginStragety } from "./LoginStragety";
+// import { LoginStragety } from "./LoginStragety";
 
-export class LocalLoginStragety implements LoginStragety{
+// export class LocalLoginStragety implements LoginStragety{
 
 
-    getAuthenticate(code: string): Promise<string> {
+//     getAuthenticate(code: string): Promise<string> {
         
-    }
-    getUserInfo(accessToken: string): Promise<any> {
+//     }
+//     getUserInfo(accessToken: string): Promise<any> {
         
-    }
-}
+//     }
+// }

@@ -1,7 +1,7 @@
 import { TypedBody } from "@nestia/core";
 import { Controller } from "@nestjs/common";
 import { SocialLoginDto } from "src/user/dto/request/SocialLoginDto";
-import { SocialLoginService } from "src/user/service/user/social-login.service";
+import { SocialLoginService } from "src/user/service/user/SocialLoginService";
 
 Controller("")
 export class SocialLoginController{
