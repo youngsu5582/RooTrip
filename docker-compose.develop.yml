@@ -4,7 +4,7 @@ services:
     image: postgres:latest
     container_name: rootrip_database
     environment:
-      POSTGRES_HOST: localhost
+      POSTGRES_HOST: db
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: local
@@ -18,8 +18,5 @@ services:
     build: .
     ports:
       - "37001:37001"
-    depends_on:
-      - db
-      - redis
     env_file:
-      - .env.dev
+      - ./.env.dev

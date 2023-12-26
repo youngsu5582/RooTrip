@@ -8,6 +8,7 @@ RUN npm install
 
 RUN npm run build
 
+
 EXPOSE 37001
 
-CMD ["npm","run","start:dev"]
+CMD ["sh","start.sh"]

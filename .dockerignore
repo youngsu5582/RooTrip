@@ -1,0 +1,7 @@
+dist
+docs
+test
+coverage
+.github
+.husky
+.env.*

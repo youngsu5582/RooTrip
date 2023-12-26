@@ -54,8 +54,8 @@ jobs:
             - name: Test
               run: npm run test:ci
 
-            - name: Coveralls
-              uses: coverallsapp/github-action@v2
+            # - name: Coveralls
+            #   uses: coverallsapp/github-action@v2
 #  https://github.com/actions/typescript-action/blob/main/.github/workflows/codeql-analysis.yml
 
 #  https://github.com/actions/typescript-action/blob/main/.github/workflows/test.yml
