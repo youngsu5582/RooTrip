@@ -27,7 +27,7 @@ jobs:
             # https://github.com/kiranojhanp/fullstack-typescript-turborepo-starter/blob/main/.github/workflows/api.yaml
             - name: Get npm cache directory path
               id: npm-cache-dir-path
-              run: echo "dir=$(npm cache dir)" >> $GITHUB_OUTPUT
+              run: echo "::set-output name=dir::$(npm cache dir)"
 
             - name: Cache node modules
               uses: actions/cache@v2
@@ -46,7 +46,7 @@ jobs:
 
             - name: Format Check
               run: npm run format-check
-              
+
 
             - name: Lint
               run: npm run lint
