@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import { SocialLoginStragety } from './login.stragety';
-import { OAuthConfigService } from 'src/lib/config/o-auth.config.service';
 
 type KakaoParamType = {
     grant_type: string;
@@ -14,8 +13,8 @@ export class KakaoLoginStragety implements SocialLoginStragety {
     private static readonly KAKAO_AUTH_URL = 'https://kauth.kakao.com/oauth/token';
     private static readonly KAKAO_USER_URL = 'https://kapi.kakao.com/v2/user/me';
     private readonly KAKAO_API_KEY: string;
-    constructor(private readonly oAuthConfigService: OAuthConfigService) {
-        this.KAKAO_API_KEY = oAuthConfigService.kakaoApiKey;
+    constructor(private readonly key: string) {
+        this.KAKAO_API_KEY = key;
     }
     public async getAuthenticate(code: string): Promise<string> {
         const params = this.getParams(code);
