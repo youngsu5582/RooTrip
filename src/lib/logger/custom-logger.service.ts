@@ -6,9 +6,6 @@ import { id } from 'cls-rtracer';
 
 @Injectable()
 export class CustomLogger extends ConsoleLogger {
-    constructor() {
-        super();
-    }
 
     verbose(message: unknown, context?: string): void {
         const convertedMessage = this.stringify(message);

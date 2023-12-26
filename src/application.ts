@@ -10,8 +10,7 @@ import { CustomLogger } from './lib/logger/custom-logger.service';
 
 export class Application {
     private application: NestExpressApplication;
-    constructor() {}
-
+    
     public async open(): Promise<void> {
         this.application = await NestFactory.create(AppModule, new ExpressAdapter(), { cors: true, logger: new CustomLogger() });
         const serverConfigService = this.application.get(ServerConfigService);
