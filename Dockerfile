@@ -1,13 +1,18 @@
-FROM node:18-alpine
+FROM node:18-alpine as builder
 
 WORKDIR /usr/src/app
 
-COPY . .
+RUN chown -R node:node /usr/src/app
 
-RUN npm install
+USER node
 
-RUN npm run build
+COPY ./src ./src
+COPY ./package.json ./package.json
+COPY ./tsconfig.json ./tsconfig.json
 
+RUN npm install --ignore-scripts
+
+COPY ./start.sh ./start.sh
 
 EXPOSE 37001
 
