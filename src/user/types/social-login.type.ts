@@ -1,2 +1,1 @@
-export type SocialLoginType = "kakao" | "naver" | "google";
-
+export type SocialLoginType = 'kakao' | 'naver' | 'google';
