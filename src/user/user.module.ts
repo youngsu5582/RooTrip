@@ -5,8 +5,8 @@ import { ConfigModule } from '@nestjs-library/config';
 import { OauthConfigService } from 'src/lib/config/o-auth.config.service';
 
 @Module({
-    imports:[ConfigModule.forFeature(OauthConfigService)],
+    imports: [ConfigModule.forFeature(OauthConfigService)],
     // controllers : [SocialLoginController],
     // providers:[KakaoLoginStragety,KakaoLoginStragety]
 })
-export class UserModule{}
+export class UserModule {}

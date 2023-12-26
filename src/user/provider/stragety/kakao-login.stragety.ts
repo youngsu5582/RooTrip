@@ -11,11 +11,10 @@ type KakaoParamType = {
 };
 
 export class KakaoLoginStragety implements SocialLoginStragety {
-
     private static readonly KAKAO_AUTH_URL = 'https://kauth.kakao.com/oauth/token';
     private static readonly KAKAO_USER_URL = 'https://kapi.kakao.com/v2/user/me';
-    private readonly KAKAO_API_KEY:string;
-    constructor(private readonly oAuthConfigService : OAuthConfigService){
+    private readonly KAKAO_API_KEY: string;
+    constructor(private readonly oAuthConfigService: OAuthConfigService) {
         this.KAKAO_API_KEY = oAuthConfigService.kakaoApiKey;
     }
     public async getAuthenticate(code: string): Promise<string> {
