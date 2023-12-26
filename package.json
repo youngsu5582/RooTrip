@@ -14,7 +14,7 @@
     "lint-staged": "lint-staged",
 
     "type-check": "tsc -p tsconfig.json --noEmit",
-    "format-check": "prettier --check --ignore-path .gitignore \"**/*.+(ts|json|js)\"",
+    "format-check": "prettier --check --ignore-path .gitignore \"src/**/*.+(ts|json|js)\"",
 
     "test": "jest --runInBand --forceExit",
 
