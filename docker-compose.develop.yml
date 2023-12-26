@@ -22,4 +22,4 @@ services:
       - db
       - redis
     env_file:
-      - .env.test
+      - .env.dev
