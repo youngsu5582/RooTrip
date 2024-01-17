@@ -22,4 +22,17 @@ export class UserRepository {
             throw error;
         }
     }
+    public async deleteUser(userDomain : UserDomain) : Promise<boolean>{
+        try {
+            await this.prismaService.user.delete({
+                where: userDomain.user
+            });
+            return true;
+        } catch (error) {
+            if ( error instanceof Prisma.PrismaClientKnownRequestError){
+                return false;
+            }
+            throw error;
+        }   
+    }
 }

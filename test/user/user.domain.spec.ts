@@ -13,7 +13,7 @@ describe('User Domain',()=>{
         expect(userDomain).toBeInstanceOf(UserDomain);
     });
     it('DB 에서 받은 User 를 통해서 , UserDomain 을 만든다.',()=>{
-        const user = UserFixture.create();
+        const user = UserFixture.get();
 
         const userDomain = UserDomain.from(user);
 

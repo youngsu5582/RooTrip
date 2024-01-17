@@ -12,7 +12,7 @@ describe('User Domain',()=>{
         expect(profileDomain).toBeInstanceOf(ProfileDomain);
     });
     it('DB 에서 받은 Profile 을 통해서 , ProfileDomain 을 만든다.',()=>{
-        const profile = ProfileFixture.create();
+        const profile = ProfileFixture.get();
 
         const profileDomain = ProfileDomain.from(profile);
 
