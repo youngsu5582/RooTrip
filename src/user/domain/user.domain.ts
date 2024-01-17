@@ -14,7 +14,7 @@ export class UserDomain {
     public readonly user : Readonly<User>;
     public status : UserStatus;
 
-    constructor(user : User,status : UserStatus){
+    private constructor(user : User,status : UserStatus){
         this.user = user;
         this.status = status;
 
