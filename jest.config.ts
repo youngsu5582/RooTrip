@@ -33,6 +33,12 @@ const config: Config = {
     //         lines: 60,
     //     },
     // },
+    rootDir: './',
+    moduleNameMapper: {
+        '^src/(.*)$': '<rootDir>/src/$1',
+        '^test/(.*)$': '<rootDir>/test/$1',
+
+    },
     coveragePathIgnorePatterns: ['<rootDir>/jest.config.ts', '.mock.ts', 'spec/'],
     setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
