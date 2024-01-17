@@ -15,8 +15,12 @@ services:
     ports:
       - 6379:6379
   web:
-    build: .
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.dev
     ports:
       - "37001:37001"
+    volumes:
+      - ../src:/usr/src/app/src
     env_file:
-      - ./.env.dev
+      - ../.env.dev
