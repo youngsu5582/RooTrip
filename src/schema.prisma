@@ -11,7 +11,7 @@ generator markdown {
 
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  url      = env("DATABASE_URL")
 }
 
 /// 사용자
@@ -22,18 +22,21 @@ datasource db {
 /// Post Model , Comment Model 과 1:N 관계를 가지고 있다.
 /// @namespace Article
 model User {
-  id            String    @id
+  id           String  @id
   /// 사용자의 Email 주소
   /// @format email
-  email         String    @unique
+  email        String  @unique
   /// 사용자의 비밀번호
   /// @pattern ^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d`-~!@#$%^&*()/]{8,16}$
-  password      String?
+  password     String?
   /// 사용자의 재발급 토큰
-  refresh_token String?
-  Comment       Comment[]
-  posts         Post[]
-  profile       Profile?
+  refreshToken String? @map("refresh_token")
+  /// 사용자의 암호화를 담당하는 Salt
+  salt         String?
+
+  Comment Comment[]
+  posts   Post[]
+  profile Profile?
 }
 
 /// 프로필
@@ -44,23 +47,23 @@ model User {
 /// @namespace Article
 model Profile {
   /// @format uuid
-  id                String @id @default(uuid())
+  id              String @id @default(uuid())
   /// 유저의 Key {@link User.id}
-  user_id           String @unique
+  userId          String @unique @map("user_id")
   /// 프로필 이미지 경로
   /// @format url
-  profile_image_url String @default("")
+  profileImageUrl String @default("") @map("profile_image_url")
   /// 사용자의 이름
   /// @minLength 1
   /// @maxLength 15
-  name              String
+  name            String
   /// 사용자의 자기소개
-  bio               String @default("")
+  bio             String @default("")
   /// 사용자의 닉네임
   /// @minLength 1
   /// @maxLength 20
-  nickname          String @default("")
-  user              User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  nickname        String @default("")
+  user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 /// 게시글
@@ -72,23 +75,23 @@ model Profile {
 /// @namespace Article
 model Post {
   /// @format uuid
-  id         String    @id @default(uuid())
+  id        String    @id @default(uuid())
   ///
   /// 유저의 Key {@link User.id}
-  user_id    String
+  userId    String    @map("user_id")
   /// 게시글 내용
-  content    String    @default("")
+  content   String    @default("")
   /// 게시글 조회수
-  post_views Int       @default(0)
+  postViews Int       @default(0) @map("post_views")
   /// 게시글 좋아요 개수
-  like       Int       @default(0)
+  like      Int       @default(0)
   /// 경로의 순서들
   /// 해당 Column은 추가 여부를 고려하고 있는 중
   /// 불필요할수도 있다고 판단하기 때문 ( 2023.12.05 )
-  routes     Int[]     @db.SmallInt
-  Comment    Comment[]
-  photo      Photo[]
-  user       User      @relation(fields: [user_id], references: [id])
+  routes    Int[]     @db.SmallInt
+  Comment   Comment[]
+  photo     Photo[]
+  user      User      @relation(fields: [userId], references: [id])
 }
 
 /// 게시글의 댓글
@@ -100,15 +103,15 @@ model Comment {
   /// @format uuid
   id      String @id @default(uuid())
   /// 게시글의 Key {@link Post.id}
-  post_id String
+  postId  String @map("post_id")
   /// 유저의 key {@link User.id}
-  user_id String
+  userId  String @map("user_id")
   /// 댓글 내용
   content String
   /// 댓글 좋아요 수
   like    Int    @default(0)
-  post    Post   @relation(fields: [post_id], references: [id])
-  user    User   @relation(fields: [user_id], references: [id])
+  post    Post   @relation(fields: [postId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
 }
 
 /// 도로명 주소
@@ -139,21 +142,21 @@ model Address {
 /// Post , User Model 과 N:1 관계이다.
 /// @namespace Article
 model Photo {
-  id          String               @id @default(uuid())
+  id         String               @id @default(uuid())
   /// 게시글의 Key {@link Post.id}
-  post_id     String
+  postId     String               @map("post_id")
   /// 주소의 Key {@link Address.id}
-  address_id  Int
+  addressId  Int                  @map("address_id")
   /// 사진 이미지의 경로
-  image_url   String
+  imageUrl   String               @map("image_url")
   /// 게시글에서 해당 사진의 순서
-  photo_order Int                  @db.SmallInt
+  photoOrder Int                  @map("photo_order") @db.SmallInt
   /// 해당 사진의 메타정보가 가지고 있는 좌표
   /// GeoJSON 의 Point 사용 ( -75.289080414181669, 48.284706278302295 )
   /// Prisma 에서 GeoJSON 은 아직 미지원 이므로 , Unsupported 사용
-  coordinate  Unsupported("point")
-  address     Address              @relation(fields: [address_id], references: [id])
-  post        Post                 @relation(fields: [post_id], references: [id])
+  coordinate Unsupported("point")
+  address    Address              @relation(fields: [addressId], references: [id])
+  post       Post                 @relation(fields: [postId], references: [id])
 
   @@index([coordinate], map: "photo_location_idx", type: Gist)
 }
