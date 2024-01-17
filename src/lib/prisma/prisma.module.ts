@@ -5,11 +5,8 @@ import { DatabaseConfigService } from '../config/database.config.service';
 
 @Global()
 @Module({
-    imports:[ConfigModule.forFeature([DatabaseConfigService])],
+    imports: [ConfigModule.forFeature([DatabaseConfigService])],
     providers: [PrismaService],
-    exports: [
-        PrismaService
-    ],
-    
+    exports: [PrismaService],
 })
 export class PrismaModule {}

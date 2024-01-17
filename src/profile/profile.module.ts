@@ -5,8 +5,8 @@ import { ProfileRepository } from 'src/user/repository/profile.repository';
 
 @Module({
     imports: [PrismaModule],
-    controllers : [],
-    providers:[ProfileCreateService,ProfileRepository],
-    exports : [ProfileCreateService]
+    controllers: [],
+    providers: [ProfileCreateService, ProfileRepository],
+    exports: [ProfileCreateService],
 })
 export class ProfileModule {}

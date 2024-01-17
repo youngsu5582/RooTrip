@@ -35,8 +35,7 @@ export class DatabaseConfigService extends AbstractConfigService<DatabaseConfigS
     // @IsNotEmpty()
     // databaseUrl: string;
 
-    public getDatabaseUrl(){
+    public getDatabaseUrl() {
         return `postgresql://${this.databaseUsername}:${this.databasePassword}@${this.databaseHost}:${this.databasePort}/${this.databaseName}`;
     }
 }
-

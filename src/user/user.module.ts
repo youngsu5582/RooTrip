@@ -8,8 +8,8 @@ import { UserRepository } from './repository/user.repository';
 import { ProfileModule } from 'src/profile/profile.module';
 
 @Module({
-    imports: [ConfigModule.forFeature(OAuthConfigService),PrismaModule,ProfileModule],
-    controllers : [LocalRegisterController],
-    providers:[LocalRegisterService,UserRepository]
+    imports: [ConfigModule.forFeature(OAuthConfigService), PrismaModule, ProfileModule],
+    controllers: [LocalRegisterController],
+    providers: [LocalRegisterService, UserRepository],
 })
 export class UserModule {}

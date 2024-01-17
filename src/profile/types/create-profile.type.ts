@@ -1,3 +1,3 @@
-import {Profile} from 'prisma/prisma-client';
+import { Profile } from 'prisma/prisma-client';
 
-export type CreateProfileType = Pick<Profile,'name'|'nickname'>;
+export type CreateProfileType = Pick<Profile, 'name' | 'nickname'>;

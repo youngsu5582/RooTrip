@@ -5,34 +5,34 @@ import { Prisma } from 'prisma/prisma-client';
 
 @Injectable()
 export class UserRepository {
-    constructor(private readonly prismaService : PrismaService){}
+    constructor(private readonly prismaService: PrismaService) {}
 
-    public async createUser(userDomain : UserDomain) : Promise<boolean>{
+    public async createUser(userDomain: UserDomain): Promise<boolean> {
         try {
             await this.prismaService.user.create({
-                data: userDomain.user
+                data: userDomain.user,
             });
             userDomain.status = UserStatus.REGISTER_SUCCESS;
             return true;
         } catch (error) {
-            if ( error instanceof Prisma.PrismaClientKnownRequestError){
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 userDomain.status = UserStatus.REGISTER_FAILED;
                 return false;
             }
             throw error;
         }
     }
-    public async deleteUser(userDomain : UserDomain) : Promise<boolean>{
+    public async deleteUser(userDomain: UserDomain): Promise<boolean> {
         try {
             await this.prismaService.user.delete({
-                where: userDomain.user
+                where: userDomain.user,
             });
             return true;
         } catch (error) {
-            if ( error instanceof Prisma.PrismaClientKnownRequestError){
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 return false;
             }
             throw error;
-        }   
+        }
     }
 }
