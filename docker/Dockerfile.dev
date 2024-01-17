@@ -1,0 +1,24 @@
+FROM node:18-alpine AS builder
+
+WORKDIR /usr/src/app
+
+
+
+COPY ./package.json ./package.json
+
+COPY ./tsconfig.json ./tsconfig.json
+
+
+COPY ./src ./src
+COPY ./script/start.sh ./start.sh
+
+RUN chown -R node:node /usr/src/app
+
+USER node
+
+RUN npm install --ignore-scripts
+RUN npx typia setup --manager npm --project ./tsconfig.json
+
+EXPOSE 37001
+
+CMD ["sh","start.sh"]
