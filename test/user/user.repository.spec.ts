@@ -28,6 +28,15 @@ describe('UserRepository', () => {
 
         expect(result).toBeTruthy();
     });
+    it('UserDomain 을 통해 , DB 에 User 를 삽입 실패할 시 False 를 반환한다.', async () => {
+        const userDomain = UserFixture.getDomain(1);
+
+        await userRepository.createUser(userDomain);
+        const result = await userRepository.createUser(userDomain);
+
+        expect(result).toBeFalsy();
+    });
+
     it('email 을 통해 , DB 에서 Email 이 일치하는 UserDomain 을 받아온다.', async () => {
         const email = UserFixture.getDomain().user.email;
 
