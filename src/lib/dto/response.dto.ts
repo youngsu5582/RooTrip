@@ -1,4 +1,4 @@
-export class ResponeDto<T = undefined> {
+export class ResponeDto<T> {
     status: true;
     message: string;
     data: T;
