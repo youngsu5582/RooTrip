@@ -7,10 +7,8 @@ import { UserModule } from './user/user.module';
 import { ProfileModule } from './profile/profile.module';
 import { TokenModule } from './lib/token/token.module';
 
-const module = [UserModule, ProfileModule, TokenModule];
-
 @Module({
-    imports: [ConfigModule.forFeature([SetnryConfigService, ServerConfigService]), ...module],
+    imports: [ConfigModule.forFeature([SetnryConfigService, ServerConfigService]), UserModule, ProfileModule, TokenModule],
     controllers: [],
     providers: [],
 })

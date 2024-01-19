@@ -8,6 +8,9 @@ type Unit = 'm' | 'h' | 'd' | 'y';
 type UnitIndex = Unit | Uppercase<Unit>;
 
 function transformExpire(expireString: string): number {
+    if (typeof expireString !== 'string' || expireString.trim().length === 0) {
+        return 900;
+    }
     const unit = expireString.slice(-1);
     if (isUnitIndex(unit)) {
         const expire = Number.parseInt(expireString, 10);
