@@ -14,12 +14,19 @@
     "lint-staged": "lint-staged",
     "type-check": "tsc -p tsconfig.json --noEmit",
     "format-check": "prettier --check --ignore-path .gitignore \"src/**/*.+(ts|json|js)\"",
-    "test": "sleep 1 && dotenv -e .env.test -- npx prisma migrate deploy && jest --runInBand --forceExit",
+
+    "test": "jest",
+    "test:all": "sleep 1 && dotenv -e .env.test -- npx prisma migrate deploy && jest --runInBand --forceExit",
     "docker-compose-up:test": "docker-compose -f docker/docker-compose.test.yml --env-file .env.test up --remove-orphans -d",
     "docker-compose-down:test": "docker-compose -f docker/docker-compose.test.yml down -v",
-    "test:ci": "npm run docker-compose-up:test && npm run test; npm run docker-compose-down:test",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
+    "test:ci": "npm run docker-compose-up:test && npm run test:all; npm run docker-compose-down:test",
+    "test:watch": "sleep 1 && dotenv -e .env.test -- npx prisma migrate deploy && jest --watch",
+    "cov": "open coverage/lcov-report/index.html",
+    "test:cov": "sleep 1 && dotenv -e .env.test -- npx prisma migrate deploy && jest --coverage",
+
+
+
+    "test:ci-cov": "npm run docker-compose-up:test && npm run test:cov; npm run docker-compose-down:test",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prepare": "ts-patch install && typia patch"
@@ -30,6 +37,7 @@
     "@nestjs-library/config": "^0.4.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/jwt": "^10.2.0",
     "@nestjs/platform-express": "^10.0.0",
     "@sentry/node": "^7.91.0",
     "axios": "^1.6.2",
