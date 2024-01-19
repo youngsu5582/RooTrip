@@ -45,9 +45,9 @@ describe('Token Processor & Decoder Service', () => {
 
         expect(expireIn).toEqual(tokenConfigService.accessTokenExpire);
     });
-    it('액세스 토큰의 유효기간은 ConfigService 의 값에 따른다', () => {
+    it('리프레쉬 토큰의 유효기간은 ConfigService 의 값에 따른다', () => {
         const expireIn = tokenProcessor.getRefreshTokenExpire();
 
-        expect(expireIn).toEqual(tokenConfigService.accessTokenExpire);
+        expect(expireIn).toEqual(tokenConfigService.refreshTokenExpire);
     });
 });
