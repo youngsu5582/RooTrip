@@ -11,6 +11,7 @@ erDiagram
     String email UK
     String password "nullable"
     String refresh_token "nullable"
+    String salt "nullable"
 }
 "Profile" {
     String id PK
@@ -50,10 +51,10 @@ erDiagram
 }
 "Profile" |o--|| "User" : user
 "Post" }o--|| "User" : user
-"Comment" }o--|| "User" : user
 "Comment" }o--|| "Post" : post
+"Comment" }o--|| "User" : user
 "Photo" }o--|| "Address" : address
-"Photo" }|--|| "Post" : post
+"Photo" }o--|| "Post" : post
 ```
 
 ### `User`
@@ -69,6 +70,7 @@ Post Model , Comment Model 과 1:N 관계를 가지고 있다.
   - `email`: 사용자의 Email 주소
   - `password`: 사용자의 비밀번호
   - `refresh_token`: 사용자의 재발급 토큰
+  - `salt`: 사용자의 암호화를 담당하는 Salt
 
 ### `Profile`
 프로필
