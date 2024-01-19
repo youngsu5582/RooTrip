@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { LocalLoginRequestDto } from 'src/user/dto/request/local-login.dto';
+import { LocalLoginRequestDto } from 'src/user/dto/request/local-login.request.dto';
 import { LocalLoginService } from 'src/user/service/local-login.service';
 import { UserModule } from 'src/user/user.module';
 import { 유저_생성 } from './step/유저 생성';

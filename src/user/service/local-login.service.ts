@@ -4,7 +4,7 @@ import { UserRepository } from '../repository/user.repository';
 import { TokenProcessor } from 'src/lib/token/provider/token-processor.provider';
 import { TokenPayloadType } from '../types/create-refresh-token.type';
 import { LoginTokenInfoType } from '../types';
-import { LocalLoginRequestDto } from '../dto/request/local-login.dto';
+import { LocalLoginRequestDto } from '../dto/request/local-login.request.dto';
 
 @Injectable()
 export class LocalLoginService {
