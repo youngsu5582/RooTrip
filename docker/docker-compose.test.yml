@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  db:
+  test_db:
     image: postgres:latest
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]

@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  db:
+  dev_db:
     image: postgres:latest
     container_name: rootrip_database
     environment:
@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: local
     ports:
-      - "5432:5432"
+      - "5433:5433"
   redis:
     image: redis
     ports:
