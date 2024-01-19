@@ -10,10 +10,10 @@ export class LocalLoginController {
     /**
      * 로컬 로그인을 진행한다.
      * @param localLoginRequestDto 로그인 하기 위한 DTO
-     * @returns 
+     * @returns
      */
     @TypedRoute.Post()
-    async execute(@TypedBody() localLoginRequestDto: LocalLoginRequestDto) : Promise<LocalLoginResponseDto> {
+    async execute(@TypedBody() localLoginRequestDto: LocalLoginRequestDto): Promise<LocalLoginResponseDto> {
         const loginTokenInfo = await this.localLoginService.execute(localLoginRequestDto);
         return new LocalLoginResponseDto(loginTokenInfo);
     }

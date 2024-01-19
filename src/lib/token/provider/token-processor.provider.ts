@@ -8,7 +8,7 @@ export class TokenProcessor<T extends Record<string, any>> {
     public getAccessTokenExpire() {
         return this.tokenConfigService.accessTokenExpire;
     }
-    public getRefreshTokenExpire(){
+    public getRefreshTokenExpire() {
         return this.tokenConfigService.refreshTokenExpire;
     }
     public generateAccessToken(payload: T): string {
