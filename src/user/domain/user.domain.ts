@@ -15,6 +15,7 @@ export enum UserStatus {
 }
 export class UserDomain {
     private static readonly ANONYMOUS_EMAIL = 'anonaymous@test.com';
+    private static readonly ANONYMOUS_PASSWORD = randomId();
     public readonly user: Readonly<User>;
     public status: UserStatus;
 
@@ -35,7 +36,7 @@ export class UserDomain {
     public static getAnonymousUser() {
         const user = {
             email: this.ANONYMOUS_EMAIL,
-            password: 'anonymous',
+            password: this.ANONYMOUS_PASSWORD
         };
         return UserDomain.of(user, randomId() + '1');
     }

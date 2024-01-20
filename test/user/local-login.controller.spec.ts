@@ -5,6 +5,7 @@ import { LocalRegisterService } from 'src/user/service/local-register.service';
 import { UserModule } from 'src/user/user.module';
 import { 유저_생성 } from './step/유저 생성';
 import { LocalLoginRequestDto } from 'src/user/dto/request/local-login.request.dto';
+import typia from 'typia';
 
 describe('LocalLoginController', () => {
     let localLoginController: LocalLoginController;
@@ -17,12 +18,12 @@ describe('LocalLoginController', () => {
         localLoginController = module.get(LocalLoginController);
     });
     it('LocalLoginRequest Dto 를 통해 , 로그인을 진행 후 , LocalLoginResponse Dto 를 받는다.', async () => {
-        const password = 'randomPassword';
-        const userDomain = await 유저_생성(localRegisterService, password);
+        const userPassword = typia.random<string>();
+        const userDomain = await 유저_생성(localRegisterService, userPassword);
 
         const localLoginRequestDto: LocalLoginRequestDto = {
             email: userDomain.user.email,
-            password,
+            password : userPassword, 
         };
 
         const result = await localLoginController.execute(localLoginRequestDto);

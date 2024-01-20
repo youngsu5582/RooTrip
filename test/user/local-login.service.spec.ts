@@ -5,6 +5,7 @@ import { UserModule } from 'src/user/user.module';
 import { 유저_생성 } from './step/유저 생성';
 import { LocalRegisterService } from 'src/user/service/local-register.service';
 import { LoginTokenInfoType } from 'src/user/types';
+import typia from 'typia';
 
 describe('LocalLoginService', () => {
     let localLoginService: LocalLoginService;
@@ -18,12 +19,12 @@ describe('LocalLoginService', () => {
         localLoginService = module.get(LocalLoginService);
     });
     it('localLoginRequestDto 을 통해 로그인 로직을 진행 후 , loginTokenInfo 를 반환한다', async () => {
-        const password = 'randomPassword';
-        const userDomain = await 유저_생성(localRegisterService, password);
+        const userPassword = typia.random<string>();
+        const userDomain = await 유저_생성(localRegisterService, userPassword);
 
         const localLoginRequestDto: LocalLoginRequestDto = {
             email: userDomain.user.email,
-            password: password,
+            password: userPassword,
         };
 
         const result: LoginTokenInfoType = await localLoginService.execute(localLoginRequestDto);
