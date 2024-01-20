@@ -36,7 +36,7 @@ export class UserDomain {
     public static getAnonymousUser() {
         const user = {
             email: this.ANONYMOUS_EMAIL,
-            password: this.ANONYMOUS_PASSWORD
+            password: this.ANONYMOUS_PASSWORD,
         };
         return UserDomain.of(user, randomId() + '1');
     }

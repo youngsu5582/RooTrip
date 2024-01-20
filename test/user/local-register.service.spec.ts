@@ -23,5 +23,4 @@ describe('LocalRegisterService', () => {
 
         expect(userDomain.status).toBe(UserStatus.REGISTER_SUCCESS);
     });
-    
 });

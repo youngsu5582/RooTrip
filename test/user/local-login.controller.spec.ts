@@ -23,7 +23,7 @@ describe('LocalLoginController', () => {
 
         const localLoginRequestDto: LocalLoginRequestDto = {
             email: userDomain.user.email,
-            password : userPassword, 
+            password: userPassword,
         };
 
         const result = await localLoginController.execute(localLoginRequestDto);
