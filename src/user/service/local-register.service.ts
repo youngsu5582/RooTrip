@@ -10,7 +10,7 @@ export class LocalRegisterService {
         const user = UserDomain.of(createUserType, userId);
 
         await this.userRepository.createUser(user);
-
+        user.validStatus();
         return user;
     }
 }

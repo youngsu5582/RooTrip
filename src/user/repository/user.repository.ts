@@ -22,10 +22,39 @@ export class UserRepository {
             throw error;
         }
     }
+    public async findUserDomainByEmail(email: string): Promise<UserDomain> {
+        const user = await this.prismaService.user.findFirst({
+            where: {
+                email,
+            },
+        });
+        if (user) {
+            return UserDomain.from(user);
+        }
+        return UserDomain.getAnonymousUser();
+    }
     public async deleteUser(userDomain: UserDomain): Promise<boolean> {
         try {
             await this.prismaService.user.delete({
                 where: userDomain.user,
+            });
+            return true;
+        } catch (error) {
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                return false;
+            }
+            throw error;
+        }
+    }
+    public async saveRefreshToken(userDomain: UserDomain, refreshToken: string) {
+        try {
+            await this.prismaService.user.update({
+                where: {
+                    id: userDomain.user.id,
+                },
+                data: {
+                    refreshToken,
+                },
             });
             return true;
         } catch (error) {

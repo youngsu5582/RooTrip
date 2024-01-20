@@ -1,5 +1,5 @@
-export class ResponeDto<T = undefined> {
-    status: true;
+export class ResponeDto<T> {
+    status = true;
     message: string;
     data: T;
     constructor(message: string, data?: T) {

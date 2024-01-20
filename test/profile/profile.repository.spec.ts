@@ -32,4 +32,12 @@ describe('ProfileRepository', () => {
 
         expect(result).toBeTruthy();
     });
+    it('ProfileDomain 을 통해 , DB 에 Profile 삽입 실패할 시 False 를 반환한다.', async () => {
+        const profileDomain = ProfileDomain.of({ name: '영수', nickname: '영슈' }, userDomain.user.id);
+
+        await profileRepository.createProfile(profileDomain);
+        const result = await profileRepository.createProfile(profileDomain);
+
+        expect(result).toBeFalsy();
+    });
 });

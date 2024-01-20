@@ -1,5 +1,6 @@
 import { User } from 'prisma/prisma-client';
 import { UserDomain } from 'src/user/domain/user.domain';
+import { CreateUserType } from 'src/user/types';
 import { randomId } from 'src/util/random-id.util';
 import typia from 'typia';
 
@@ -10,6 +11,7 @@ export class UserFixture {
     }
     public static get(): User {
         const user: User = typia.random<User>();
+        user.password = typia.random<string>();
         return user;
     }
     public static getWithFixId(): User {
@@ -24,7 +26,7 @@ export class UserFixture {
         return this.data;
     }
     private static createUserDomain(): UserDomain {
-        const user = typia.random<User>();
+        const user = typia.random<CreateUserType>();
         const userId = randomId();
         return UserDomain.of(user, userId);
     }

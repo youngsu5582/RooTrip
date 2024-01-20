@@ -23,8 +23,8 @@ const config: Config = {
     verbose: true,
     detectLeaks: false,
     detectOpenHandles: true,
-    // collectCoverage: true,
-    // collectCoverageFrom: ['**/*.ts', '!**/*.d.ts'],
+    collectCoverage: true,
+    collectCoverageFrom: ['**/*.ts', '!**/*.d.ts'],
     // coverageThreshold: {
     //     global: {
     //         statements: 60,
@@ -39,7 +39,7 @@ const config: Config = {
         '^test/(.*)$': '<rootDir>/test/$1',
 
     },
-    coveragePathIgnorePatterns: ['<rootDir>/jest.config.ts', '.mock.ts', 'spec/'],
+    coveragePathIgnorePatterns: ['<rootDir>/jest.config.ts', '.mock.ts', 'spec/','.*\\.config\\.ts$'],
     setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
 
